@@ -1,0 +1,11 @@
+if there are teo matrix of size x1,y1 and x2,y2 then we can multiply both matrix when
+(x2 == y1) . and the cost to multiply both matrix is : x1 * x2 * y2 ;
+
+if there are three matrix a(x1,y1) b(x2,y2) c(x3,y3) . then the cost of
+multiplying { (a(x1,y1) * b(x2,y2)) * (c3,y3)  } and { a(x1,y1) * ( b(x2,y2) * (c3,y3) ) }
+
+these type of techniques is used to do partition 
+partition will not be a part of subset but in the form of subarray 
+
+overall we have to make a cut 
+https://leetcode.com/discuss/general-discussion/1278305/all-about-matrix-chain-multiplication-easy
