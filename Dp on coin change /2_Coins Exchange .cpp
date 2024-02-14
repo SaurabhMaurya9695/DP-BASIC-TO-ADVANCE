@@ -8,6 +8,42 @@
                     //space : O(Amount);
 class Solution {
 public:
+
+    // minimum number of coins we have to pick to make the sum t;
+    int dp[10001];
+    int solve(vector<int> arr , int target){
+
+        if(target == 0){    
+            return 0;
+        }
+
+        if(target < 0){
+            return (int)(1e7);
+        }
+
+        if(dp[target] != -1){
+            return dp[target];
+        }
+
+        int ans = (int)(1e7);
+        for(auto coin : arr){
+            int taken = solve(arr , target - coin);
+            ans = min(ans , taken + 1) ; // teken self coin
+        }
+
+        return dp[target] = ans ;
+    }
+
+    int minimumElements(vector<int> &num, int x){
+        memset(dp, -1 , sizeof(dp));
+        int ans =  solve(num , x);
+        if(ans >= (int)(1e7)) return -1;
+        else{
+            return ans ;
+        }
+    } 
+
+// `````````````````````````````````````````````````````````````````````````````````````````````````````````
     int memo(int amount, vector<int>& coins, int dp[]) {
         if (amount == 0)
             return 0;
