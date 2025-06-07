@@ -39,6 +39,41 @@ public:
 };
 
 
+// java code 
+class Solution {
+    public int maxProfit(int[] price) {
+        int[][] dp = new int[5001][2];
+        for (int i = 0; i < dp.length; i++) {
+            Arrays.fill(dp[i], -1);
+        }
+        return solve(price, 0, price.length, 0, dp);
+    }
+
+    private int solve(int[] price, int idx, int n, int buy, int[][] dp) {
+
+        if (idx >= n) {
+            return 0;
+        }
+
+        if (dp[idx][buy] != -1) {
+            return dp[idx][buy];
+        }
+        int ans = 0;
+        if (buy == 1) {
+            int sell = price[idx] + solve(price, idx + 2, n, 0, dp);
+            int skip = solve(price, idx + 1, n, 1, dp);
+            ans = Math.max(sell, skip);
+        } else {
+            // we can buy one
+            int buying = -price[idx] + solve(price, idx + 1, n, 1, dp);
+            int skip = solve(price, idx + 1, n, 0, dp);
+            ans = Math.max(buying, skip);
+        }
+
+        return dp[idx][buy] = ans;
+    }
+}
+
 //tabulation -> O(N) and space ->O(N);
 class Solution {
 public:
