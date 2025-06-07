@@ -1,35 +1,36 @@
 class Solution {
 public:
-    int dp[50001][2];
-    int solve(vector<int>& cost , int buy , int idx , int fee){
-        
-        
-        if(idx == cost.size()){
-            return 0 ; // if we reached at last idx then our profit will be zero 
+    int dp[100006][2];
+    int maxProfit(vector<int>& prices, int fee) {
+        memset(dp, -1,sizeof(dp));
+        return solve(prices, fee, 0, prices.size() , 0);
+    }
+
+    int solve(vector<int>& arr, int fee, int idx , int n , int buy) {
+
+        if(idx >= n){
+            return 0;
         }
-        
+
         if(dp[idx][buy] != -1){
             return dp[idx][buy];
         }
-        //every idx has two possiblility's ti buy or sell ;
-        int ans = 0 ;
-        if(buy == 1){ // we have given idx to buy
-            int take =  -fee - cost[idx] + solve(cost , 0 , idx + 1 , fee) ; 
-            int notTake = 0 + solve(cost , 1 , idx + 1 , fee) ; 
-            ans = max(take , notTake) ;
+
+        int ans ;
+        if(buy == 1){
+            // means we already buyed and its time to sell or leave it
+            int sell = (arr[idx] - fee) + solve(arr , fee , idx + 1 , n , 0); // now we are done with this transcation
+            int skip = solve(arr , fee , idx + 1 , n , 1); 
+            ans = max(sell , skip);
         }
-        else if(buy == 0) // buy == 0 means previous we buy somewhere we have to sell now ;
-        {
-            int take2 =   cost[idx] + solve(cost , 1 , idx + 1 , fee) ; 
-            int notTake2 = 0 + solve(cost , 0 , idx + 1 , fee) ; 
-            ans = max(take2 , notTake2) ;
+        else{
+            // means we have to buy now , either buy or skip
+            int buy = -arr[idx] + solve(arr , fee , idx + 1 , n , 1); // started a transcation
+            int skip = solve(arr , fee , idx + 1 , n , 0); 
+            ans = max(buy , skip);
         }
-        
+
         return dp[idx][buy] = ans ;
-    }
-    int maxProfit(vector<int>& prices, int fee) {
-        memset(dp ,-1 , sizeof(dp)) ;
-        return solve(prices , 1 , 0 , fee) ;
     }
 };
 
